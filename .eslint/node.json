@@ -1,0 +1,22 @@
+{
+    "extends": "./base.json",
+    "env": {
+        "node": true
+    },
+    "parserOptions": {
+        "ecmaVersion": 6,
+        "sourceType": "script",
+        "ecmaFeatures": {
+            "modules": false
+        }
+    },
+    "rules": {
+        "global-require": "off",
+        "strict": ["error", "global"],
+        "no-console": [
+            "error", {
+                "allow": ["warn", "error"]
+            }
+        ]
+    }
+}

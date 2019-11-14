@@ -1,0 +1,16 @@
+{
+    "extends": ["react-app", "./base.json"],
+    "env": {
+        "browser": true
+    },
+    "rules": {
+        "react/jsx-closing-bracket-location": ["warn", "after-props"],
+        "react/jsx-curly-spacing": ["warn", { "when": "always" }],
+        "react/jsx-filename-extension": ["warn", {
+            "extensions": [".js", ".jsx"]
+        }],
+        "react/jsx-indent": ["error", 4],
+        "react/jsx-indent-props": ["error", 4],
+        "react/prop-types": "off"
+    }
+}
