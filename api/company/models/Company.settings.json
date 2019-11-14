@@ -1,0 +1,38 @@
+{
+  "connection": "default",
+  "collectionName": "companies",
+  "info": {
+    "name": "company",
+    "description": "Used to group together projects I've work on."
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "comment": ""
+  },
+  "attributes": {
+    "name": {
+      "maxLength": 64,
+      "required": true,
+      "type": "string"
+    },
+    "slug": {
+      "maxLength": 64,
+      "required": true,
+      "unique": true,
+      "type": "string"
+    },
+    "description": {
+      "maxLength": 512,
+      "type": "richtext"
+    },
+    "url": {
+      "maxLength": 512,
+      "type": "string"
+    },
+    "projects": {
+      "collection": "project",
+      "via": "company"
+    }
+  }
+}
