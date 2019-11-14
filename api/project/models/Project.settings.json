@@ -1,0 +1,45 @@
+{
+  "connection": "default",
+  "collectionName": "projects",
+  "info": {
+    "name": "project",
+    "description": "Individual pieces for work I've contributed to for other companies."
+  },
+  "options": {
+    "increments": true,
+    "timestamps": [
+      "created_at",
+      "updated_at"
+    ],
+    "comment": ""
+  },
+  "attributes": {
+    "name": {
+      "maxLength": 64,
+      "required": true,
+      "type": "string"
+    },
+    "slug": {
+      "maxLength": 64,
+      "required": true,
+      "unique": true,
+      "type": "string"
+    },
+    "summary": {
+      "maxLength": 256,
+      "type": "text"
+    },
+    "description": {
+      "maxLength": 4096,
+      "type": "richtext"
+    },
+    "url": {
+      "maxLength": 512,
+      "type": "string"
+    },
+    "company": {
+      "model": "company",
+      "via": "projects"
+    }
+  }
+}
