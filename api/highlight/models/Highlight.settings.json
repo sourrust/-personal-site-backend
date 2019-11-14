@@ -1,0 +1,31 @@
+{
+  "connection": "default",
+  "collectionName": "highlights",
+  "info": {
+    "name": "highlight",
+    "description": "The subjects I am highlighting on the front page."
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "comment": ""
+  },
+  "attributes": {
+    "name": {
+      "default": "",
+      "required": true,
+      "maxLength": 32,
+      "type": "string"
+    },
+    "slug": {
+      "maxLength": 32,
+      "required": true,
+      "unique": true,
+      "type": "string"
+    },
+    "description": {
+      "maxLength": 512,
+      "type": "text"
+    }
+  }
+}
