@@ -21,7 +21,6 @@
     },
     "slug": {
       "maxLength": 64,
-      "required": true,
       "unique": true,
       "type": "string"
     },
