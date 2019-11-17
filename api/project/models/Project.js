@@ -1,6 +1,6 @@
 'use strict';
 
-const slugify = require('slugify');
+const createSlug = require('../../../utility/createSlug');
 
 /**
  * Lifecycle callbacks for the `Project` model.
@@ -11,9 +11,9 @@ module.exports = {
   // Fired before an `insert` or `update` query.
   beforeSave: async function(model, attributes, options) {
       if (options.method === 'insert') {
-          model.set('slug', slugify(attributes.title));
-      } else if (options.method === 'update' && attributes.title) {
-          attributes.slug = slugify(attributes.title);
+          model.set('slug', createSlug(attributes.name));
+      } else if (options.method === 'update' && attributes.name) {
+          attributes.slug = createSlug(attributes.name);
       }
   },
 
