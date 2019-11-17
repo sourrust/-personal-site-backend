@@ -10,11 +10,10 @@
         "srv": "${process.env.DATABASE_SRV || false}",
         "database": "${process.env.DATABASE_NAME || 'personal-site'}",
         "username": "${process.env.DATABASE_USERNAME || ''}",
-        "password": "${process.env.DATABASE_PASSWORD || ''}",
-        "ssl": "${process.env.DATABASE_SSL || false}"
+        "password": "${process.env.DATABASE_PASSWORD || ''}"
       },
       "options": {
-        "ssl": "${process.env.DATABASE_SSL || false}",
+        "ssl": false,
         "authenticationDatabase": "${process.env.DATABASE_AUTHENTICATION_DATABASE || ''}"
       }
     }
