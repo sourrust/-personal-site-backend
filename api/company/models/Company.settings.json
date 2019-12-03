@@ -32,13 +32,13 @@
       "maxLength": 512,
       "type": "string"
     },
+    "description_html": {
+      "maxLength": 512,
+      "type": "text"
+    },
     "projects": {
       "collection": "project",
       "via": "company"
-    },
-    "description_html": {
-      "maxLength": 512,
-      "type": "string"
     }
   }
 }
