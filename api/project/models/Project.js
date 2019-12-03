@@ -1,19 +1,39 @@
 'use strict';
 
-const createSlug = require('../../../utility/createSlug');
+const { createSlug, markdownToHtml } = require('../../../utility');
 
 /**
  * Lifecycle callbacks for the `Project` model.
  */
+function handleInsertBeforeSave(model, attributes) {
+    // Name is required, so it will always be there on insert
+    const options = { slug: createSlug(attributes.name) };
+
+    if (attributes.description) {
+        options.description_html = markdownToHtml(attributes.description);
+    }
+
+    return model.set(options);
+}
+
+function handleUpdateBeforeSave(model, attributes) {
+    if (attributes.name) {
+        attributes.slug = createSlug(attributes.name);
+    }
+
+    if (attributes.description) {
+        attributes.description_html = markdownToHtml(attributes.description);
+    }
+}
 
 module.exports = {
   // Before saving a value.
   // Fired before an `insert` or `update` query.
   beforeSave: async function(model, attributes, options) {
       if (options.method === 'insert') {
-          model.set('slug', createSlug(attributes.name));
-      } else if (options.method === 'update' && attributes.name) {
-          attributes.slug = createSlug(attributes.name);
+          handleInsertBeforeSave(model, attributes);
+      } else if (options.method === 'update') {
+          handleUpdateBeforeSave(model, attributes);
       }
   },
 

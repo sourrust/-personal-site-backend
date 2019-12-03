@@ -36,6 +36,10 @@
       "maxLength": 512,
       "type": "string"
     },
+    "description_html": {
+      "maxLength": 4096,
+      "type": "string"
+    },
     "company": {
       "model": "company",
       "via": "projects"

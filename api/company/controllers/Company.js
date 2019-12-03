@@ -6,6 +6,14 @@ const isNil = require('../../../utility/isNil');
  * Read the documentation (https://strapi.io/documentation/3.0.0-beta.x/concepts/controllers.html#core-controllers)
  * to customize this controller
  */
+function withProject(query) {
+    query.select(
+        'id', 'name', 'slug', 'summary', 'description_html as description',
+        'url', 'company'
+    );
+
+    query.orderBy('name');
+}
 
 function getCompany(slug) {
     const Company = strapi.query('company').model;
@@ -13,7 +21,7 @@ function getCompany(slug) {
     return Company.where('slug', slug)
     .fetch({
         withRelated: [
-            { projects: query => query.orderBy('name') }
+            { projects: withProject }
         ]
     });
 }
