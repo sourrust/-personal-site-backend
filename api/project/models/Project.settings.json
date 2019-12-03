@@ -38,7 +38,7 @@
     },
     "description_html": {
       "maxLength": 4096,
-      "type": "string"
+      "type": "text"
     },
     "company": {
       "model": "company",
