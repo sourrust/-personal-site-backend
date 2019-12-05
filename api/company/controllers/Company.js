@@ -1,6 +1,6 @@
 'use strict';
 
-const isNil = require('../../../utility/isNil');
+const { cache, isNil } = require('../../../utility');
 
 /**
  * Read the documentation (https://strapi.io/documentation/3.0.0-beta.x/concepts/controllers.html#core-controllers)
@@ -47,8 +47,17 @@ module.exports = {
     find: async function(context) {
         const { _limit } = context.query;
 
+        let hitCache = true;
+        const key    = isNil(_limit)
+            ? 'companies'
+            : `companies:${_limit}`;
+
         const statusCode = 200;
-        const payload    = await getCompanies(_limit);
+        const payload    = await cache.wrap(key, () => {
+            hitCache = false;
+
+            return getCompanies(_limit);
+        });
 
         return { statusCode, payload };
     },
@@ -56,8 +65,15 @@ module.exports = {
     findOne: async function(context) {
         const { slug } = context.params;
 
+        let hitCache = true;
+        const key    = `companies:${slug}`;
+
         const statusCode = 200;
-        const payload    = await getCompany(slug);
+        const payload    = await cache.wrap(key, () => {
+            hitCache = false;
+
+            return getCompany(slug);
+        });
 
         if (isNil(payload)) {
             return context.response.notFound(
