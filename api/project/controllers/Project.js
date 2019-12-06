@@ -1,6 +1,11 @@
 'use strict';
 
-const { cache, isNil } = require('../../../utility');
+const {
+    cache,
+    hasForceQuery,
+    isNil,
+    setCacheHeaders
+} = require('../../../utility');
 
 /**
  * Read the documentation (https://strapi.io/documentation/3.0.0-beta.x/concepts/controllers.html#core-controllers)
@@ -27,12 +32,18 @@ module.exports = {
         let hitCache = true;
         const key    = 'projects';
 
+        if (hasForceQuery(context)) {
+            await cache.del([key, `etag:${key}`]);
+        }
+
         const statusCode = 200;
         const payload    = await cache.wrap(key, () => {
             hitCache = false;
 
             return getProjects();
-        })
+        });
+
+        await setCacheHeaders(context, hitCache, key, payload);
 
         return { statusCode, payload };
     },
@@ -42,6 +53,10 @@ module.exports = {
 
         let hitCache = true;
         const key    = `projects:${slug}`;
+
+        if (hasForceQuery(context)) {
+            await cache.del([key, `etag:${key}`]);
+        }
 
         const statusCode = 200;
         const payload    = await cache.wrap(key, () => {
@@ -55,6 +70,8 @@ module.exports = {
                 `The project with id "${slug}" couldn't be found.`
             );
         }
+
+        await setCacheHeaders(context, hitCache, key, payload);
 
         return { statusCode, payload };
     }
