@@ -21,6 +21,9 @@
     "eslint-plugin-react": "^7.14.3"
   },
   "dependencies": {
+    "cache-manager": "^2.10.1",
+    "cache-manager-ioredis": "^1.0.1",
+    "dotenv": "^8.2.0",
     "knex": "latest",
     "marked": "^0.7.0",
     "mysql": "latest",

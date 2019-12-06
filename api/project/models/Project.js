@@ -1,6 +1,6 @@
 'use strict';
 
-const { createSlug, markdownToHtml } = require('../../../utility');
+const { cache, createSlug, markdownToHtml } = require('../../../utility');
 
 /**
  * Lifecycle callbacks for the `Project` model.
@@ -71,7 +71,15 @@ module.exports = {
 
   // After updating a value.
   // Fired after an `update` query.
-  // afterUpdate: async (model, attrs, options) => {},
+  afterUpdate: async function(model, attributes, options) {
+      const company = model.related('company')
+
+      await cache.del([
+          'projects',
+          `projects:${model.get('slug')}`,
+          `companies:${company.get('slug')}`
+      ]);
+  },
 
   // Before destroying a value.
   // Fired before a `delete` query.

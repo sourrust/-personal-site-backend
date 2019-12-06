@@ -1,5 +1,7 @@
 'use strict';
 
+const cache = require('../../../utility/cache');
+
 /**
  * Lifecycle callbacks for the `Highlight` model.
  */
@@ -20,7 +22,7 @@ module.exports = {
   // After fetching a value.
   // Fired after a `fetch` operation.
   // afterFetch: async (model, response, options) => {},
-  
+
   // Before fetching all values.
   // Fired before a `fetchAll` operation.
   // beforeFetchAll: async (model, columns, options) => {},
@@ -43,7 +45,11 @@ module.exports = {
 
   // After updating a value.
   // Fired after an `update` query.
-  // afterUpdate: async (model, attrs, options) => {},
+  afterUpdate: async function(model, attributes, options) {
+      const slug = model.get('slug');
+
+      await cache.del(['highlights', `highlights:${slug}`]);
+  },
 
   // Before destroying a value.
   // Fired before a `delete` query.

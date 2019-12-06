@@ -1,6 +1,11 @@
 'use strict';
 
-const isNil = require('../../../utility/isNil');
+const {
+    cache,
+    hasForceQuery,
+    isNil,
+    setCacheHeaders
+} = require('../../../utility');
 
 /**
  * Read the documentation (https://strapi.io/documentation/3.0.0-beta.x/concepts/controllers.html#core-controllers)
@@ -47,8 +52,23 @@ module.exports = {
     find: async function(context) {
         const { _limit } = context.query;
 
+        let hitCache = true;
+        const key    = isNil(_limit)
+            ? 'companies'
+            : `companies:${_limit}`;
+
+        if (hasForceQuery(context)) {
+            await cache.del([key, `etag:${key}`]);
+        }
+
         const statusCode = 200;
-        const payload    = await getCompanies(_limit);
+        const payload    = await cache.wrap(key, () => {
+            hitCache = false;
+
+            return getCompanies(_limit);
+        });
+
+        await setCacheHeaders(context, hitCache, key, payload);
 
         return { statusCode, payload };
     },
@@ -56,14 +76,27 @@ module.exports = {
     findOne: async function(context) {
         const { slug } = context.params;
 
+        let hitCache = true;
+        const key    = `companies:${slug}`;
+
+        if (hasForceQuery(context)) {
+            await cache.del([key, `etag:${key}`]);
+        }
+
         const statusCode = 200;
-        const payload    = await getCompany(slug);
+        const payload    = await cache.wrap(key, () => {
+            hitCache = false;
+
+            return getCompany(slug);
+        });
 
         if (isNil(payload)) {
             return context.response.notFound(
                 `The company with id "${slug}" couldn't be found.`
             );
         }
+
+        await setCacheHeaders(context, hitCache, key, payload);
 
         return { statusCode, payload };
     }
