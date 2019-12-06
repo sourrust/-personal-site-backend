@@ -45,7 +45,11 @@ module.exports = {
 
   // After updating a value.
   // Fired after an `update` query.
-  // afterUpdate: async (model, attrs, options) => {},
+  afterUpdate: async function(model, attributes, options) {
+      const slug = model.get('slug');
+
+      await cache.del(['highlights', `highlights:${slug}`]);
+  },
 
   // Before destroying a value.
   // Fired before a `delete` query.
