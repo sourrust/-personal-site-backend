@@ -1,7 +1,7 @@
-'use stict';
+'use strict';
 
 function isNil(value) {
-    return value == null
+    return value == null;
 }
 
 module.exports = isNil;

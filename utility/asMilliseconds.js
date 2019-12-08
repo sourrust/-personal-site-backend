@@ -1,6 +1,6 @@
 'use strict';
 
-const isNumber = require('lodash/isNumber');
+const isNumber = require('./isNumber');
 
 function toSeconds(value) {
     return value * 1000;
