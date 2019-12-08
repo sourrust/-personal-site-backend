@@ -1,6 +1,5 @@
 'use strict';
 
-const { parse }     = require('querystring');
 const cache         = require('./cache');
 const createETag    = require('./createETag');
 const hasForceQuery = require('./hasForceQuery');
