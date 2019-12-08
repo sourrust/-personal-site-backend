@@ -1,4 +1,4 @@
-'use stict';
+'use strict';
 
 function isNil(value) {
     return value == null
