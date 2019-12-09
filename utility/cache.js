@@ -1,7 +1,5 @@
 'use strict';
 
-require('dotenv').config();
-
 const cacheManager = require('cache-manager');
 const redisStore   = require('cache-manager-ioredis');
 
