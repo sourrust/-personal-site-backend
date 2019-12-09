@@ -9,6 +9,8 @@
     "build": "strapi build",
     "strapi": "strapi"
   },
+  "author": "Jeremy Hull <sourdurms@gmail.com>",
+  "license": "BSD-3-Clause",
   "devDependencies": {
     "babel-eslint": "^10.0.3",
     "eslint": "^5.16.0",
