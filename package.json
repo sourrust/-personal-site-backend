@@ -42,15 +42,11 @@
     "strapi-plugin-users-permissions": "3.0.0-beta.17.5",
     "strapi-utils": "3.0.0-beta.17.5"
   },
-  "author": {
-    "name": "A Strapi developer"
-  },
   "strapi": {
     "uuid": "c71fdd6a-ee28-4b02-9aab-0e2402288167"
   },
   "engines": {
     "node": ">=10.0.0",
     "npm": ">=6.0.0"
-  },
-  "license": "MIT"
+  }
 }
