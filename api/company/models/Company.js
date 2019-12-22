@@ -5,37 +5,11 @@ const { cache, createSlug, markdownToHtml } = require('../../../utility');
 /**
  * Lifecycle callbacks for the `Company` model.
  */
-function handleInsertBeforeSave(model, attributes) {
-    // Name is required, so it will always be there on insert
-    const options = { slug: createSlug(attributes.name) };
-
-    if (attributes.description) {
-        options.description_html = markdownToHtml(attributes.description);
-    }
-
-    return model.set(options);
-}
-
-function handleUpdateBeforeSave(model, attributes) {
-    if (attributes.name) {
-        attributes.slug = createSlug(attributes.name);
-    }
-
-    if (attributes.description) {
-        attributes.description_html = markdownToHtml(attributes.description);
-    }
-}
 
 module.exports = {
     // Before saving a value.
     // Fired before an `insert` or `update` query.
-    beforeSave: async function(model, attributes, options) {
-        if (options.method === 'insert') {
-            handleInsertBeforeSave(model, attributes);
-        } else if (options.method === 'update') {
-            handleUpdateBeforeSave(model, attributes);
-        }
-    },
+    // beforeSave: async (model, attributes, options) => {},
 
     // After saving a value.
     // Fired after an `insert` or `update` query.
@@ -59,7 +33,16 @@ module.exports = {
 
     // Before creating a value.
     // Fired before an `insert` query.
-    // beforeCreate: async (model, attrs, options) => {},
+    beforeCreate: async function(model, attributes) {
+        // Name is required, so it will always be there on insert
+        const options = { slug: createSlug(attributes.name) };
+
+        if (attributes.description) {
+            options.description_html = markdownToHtml(attributes.description);
+        }
+
+        return model.set(options);
+    },
 
     // After creating a value.
     // Fired after an `insert` query.
@@ -67,7 +50,15 @@ module.exports = {
 
     // Before updating a value.
     // Fired before an `update` query.
-    // beforeUpdate: async (model, attrs, options) => {},
+    beforeUpdate: async function(model, attributes) {
+        if (attributes.name) {
+            attributes.slug = createSlug(attributes.name);
+        }
+
+        if (attributes.description) {
+            attributes.description_html = markdownToHtml(attributes.description);
+        }
+    },
 
     // After updating a value.
     // Fired after an `update` query.
