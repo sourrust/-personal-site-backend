@@ -1,0 +1,8 @@
+.gitignore
+Dockerfile
+dumb.rdb
+package-lock.json
+
+.git/
+build/
+node_modules/
