@@ -43,15 +43,17 @@ function formatTimeToLive(ttlSeconds) {
 
 async function setCacheHeader(context, hitCache, key, payload) {
     const isForceRefresh = hasForceQuery(context);
+    const remaining      = isForceRefresh ? 0 : await cache.ttl(key);
 
-    const maxAge = isForceRefresh ? 0 : await cache.ttl(key);
+    const client = await cache.store.getClient();
+    const maxAge = client.options.ttl;
     const etag   = await cache.wrap(`etag:${key}`, () => {
         const entity = JSON.stringify(payload);
 
         return createETag(entity);
     });
 
-    const revalidate = isForceRefresh ? 0 : Math.ceil(maxAge * 0.8);
+    const revalidate = isForceRefresh ? 0 : Math.ceil(remaining * 0.8);
 
     const cacheControl = (
         `public, must-revalidate, max-age=${maxAge}, s-max-age=${maxAge}, ` +
@@ -61,7 +63,7 @@ async function setCacheHeader(context, hitCache, key, payload) {
     context.set({
         'Cache-Control': cacheControl,
         'X-Cache-Status': hitCache && !isForceRefresh ? 'HIT' : 'MISS',
-        'X-Cache-Expired-At': formatTimeToLive(maxAge),
+        'X-Cache-Expired-At': formatTimeToLive(remaining),
         'ETag': etag
     });
 }
